@@ -9,19 +9,13 @@ import javax.swing.JLabel;
  *
  * @author Adin Rubio
  */
-public class AspiradoraIAUI extends javax.swing.JFrame {
-
-    private AspiradoraPanel aspiradora;
-    private SuciedadPanel suciedad;
-
+public class VacuumWorldUI extends javax.swing.JFrame {
     /**
      * Creates new form mainPrueba
      */
-    public AspiradoraIAUI() {
+    public VacuumWorldUI() {
         initComponents();
 
-        this.aspiradora = new AspiradoraPanel();
-        this.suciedad = new SuciedadPanel();
         this.lbl00.setIcon(this.setIcono("/img/aspiradora.jpg", this.lbl00));
         this.lbl01.setIcon(this.setIcono("/img/suciedad.jpg", this.lbl01));
         this.lbl11.setIcon(this.setIcono("/img/suciedad.jpg", this.lbl11));
@@ -214,14 +208,18 @@ public class AspiradoraIAUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AspiradoraIAUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VacuumWorldUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AspiradoraIAUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VacuumWorldUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AspiradoraIAUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VacuumWorldUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AspiradoraIAUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VacuumWorldUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -230,7 +228,7 @@ public class AspiradoraIAUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AspiradoraIAUI().setVisible(true);
+                new VacuumWorldUI().setVisible(true);
             }
         });
     }

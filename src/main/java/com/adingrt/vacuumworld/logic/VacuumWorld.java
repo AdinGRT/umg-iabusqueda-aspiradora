@@ -4,10 +4,10 @@ package com.adingrt.vacuumworld.logic;
  *
  * @author Adin Rubio
  */
-public class MundoAspiradora {
+public class VacuumWorld {
     private Object[][] terreno;
 
-    public MundoAspiradora() {
+    public VacuumWorld() {
         this.terreno = new Object[2][2];
     }
     

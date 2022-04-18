@@ -1,7 +1,7 @@
 package com.adingrt.vacuumworld.testconsole;
 
-import com.adingrt.vacuumworld.logic.Aspiradora;
-import com.adingrt.vacuumworld.logic.MundoAspiradora;
+import com.adingrt.vacuumworld.logic.VacuumCleaner;
+import com.adingrt.vacuumworld.logic.VacuumWorld;
 
 /**
  *
@@ -21,8 +21,8 @@ public class TestConsole {
         
         
          
-        MundoAspiradora mundo = new MundoAspiradora();
-        Aspiradora aspiradora = new Aspiradora("ASPIRADORA 1", 0);
+        VacuumWorld mundo = new VacuumWorld();
+        VacuumCleaner aspiradora = new VacuumCleaner("ASPIRADORA 1", 0);
         
         mundo.getTerreno()[0][0] = aspiradora;
         mundo.getTerreno()[0][1] = "vacio";

@@ -3,14 +3,14 @@ package com.adingrt.vacuumworld.logic;
 /**
  * @author Adin Rubio
  */
-public class Aspiradora {
+public class VacuumCleaner {
     private String id;
     private int posicionActual; // 0 = izquierda | 1 = derecha
     
-    public Aspiradora() {
+    public VacuumCleaner() {
     }
 
-    public Aspiradora(String id, int posicionActual) {
+    public VacuumCleaner(String id, int posicionActual) {
         this.id = id;
         this.posicionActual = posicionActual;
     }
