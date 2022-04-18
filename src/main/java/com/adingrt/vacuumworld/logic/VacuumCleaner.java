@@ -1,18 +1,49 @@
 package com.adingrt.vacuumworld.logic;
 
+import com.adingrt.vacuumworld.exceptions.InvalidPositionException;
+
 /**
  * @author Adin Rubio
  */
-public class VacuumCleaner {
+public class VacuumCleaner<E> {
     private String id;
-    private int posicionActual; // 0 = izquierda | 1 = derecha
+    private Coordinates currentPosition;
     
     public VacuumCleaner() {
     }
 
-    public VacuumCleaner(String id, int posicionActual) {
+    public VacuumCleaner(String id, Coordinates currentPosition) {
         this.id = id;
-        this.posicionActual = posicionActual;
+        this.currentPosition = currentPosition;
+    }
+    
+    public void suckdirt(E[][] room) {
+        room[this.currentPosition.getX()][this.currentPosition.getY()] = null;
+    }
+    
+    public void move(E[][] world, char direction) {
+        int x = this.currentPosition.getX();
+        int y = this.currentPosition.getY();
+        switch (direction) {
+            case 'u':
+                if(x > 0) this.currentPosition.setX(x-1);
+                else throw new InvalidPositionException("Posicion no valida!");
+                break;
+            case 'd':
+                if (x < world.length-1) this.currentPosition.setX(x+1);
+                else throw new InvalidPositionException("Posicion no valida!");
+                break;
+            case 'l':
+                if (y > 0) this.currentPosition.setY(y-1);
+                else throw new InvalidPositionException("Posicion no valida!");
+                break;
+            case 'r':
+                if (y < world[0].length-1) this.currentPosition.setY(y+1);
+                else throw new InvalidPositionException("Posicion no valida!");
+                break;
+            default:
+                throw new InvalidPositionException("Direccion no valida!");
+        }
     }
     
     public int[] limpiar(int[] estado){

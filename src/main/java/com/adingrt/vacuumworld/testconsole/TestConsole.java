@@ -24,14 +24,14 @@ public class TestConsole {
         VacuumWorld mundo = new VacuumWorld();
         VacuumCleaner aspiradora = new VacuumCleaner("ASPIRADORA 1", 0);
         
-        mundo.getTerreno()[0][0] = aspiradora;
-        mundo.getTerreno()[0][1] = "vacio";
-        mundo.getTerreno()[1][0] = "sucio";
-        mundo.getTerreno()[1][1] = "sucio";
+        mundo.getWorld()[0][0] = aspiradora;
+        mundo.getWorld()[0][1] = "vacio";
+        mundo.getWorld()[1][0] = "sucio";
+        mundo.getWorld()[1][1] = "sucio";
         
-        for (int i = 0; i < mundo.getTerreno().length; i++) {
-            for (int j = 0; j < mundo.getTerreno().length; j++) {
-                System.out.println(mundo.getTerreno()[i][j].toString());
+        for (int i = 0; i < mundo.getWorld().length; i++) {
+            for (int j = 0; j < mundo.getWorld().length; j++) {
+                System.out.println(mundo.getWorld()[i][j].toString());
             }
         }
         

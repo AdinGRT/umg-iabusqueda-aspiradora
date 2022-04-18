@@ -4,19 +4,22 @@ package com.adingrt.vacuumworld.logic;
  *
  * @author Adin Rubio
  */
-public class VacuumWorld {
-    private Object[][] terreno;
+public class VacuumWorld<E> {
+    private E[][] world;
 
     public VacuumWorld() {
-        this.terreno = new Object[2][2];
-    }
-    
-    public Object[][] getTerreno() {
-        return terreno;
     }
 
-    public void setTerreno(Object[][] terreno) {
-        this.terreno = terreno;
+    public VacuumWorld(E[][] world) {
+        this.world = world;
+    }
+
+    public E[][] getWorld() {
+        return world;
+    }
+
+    public void setWorld(E[][] world) {
+        this.world = world;
     }
     
 }
