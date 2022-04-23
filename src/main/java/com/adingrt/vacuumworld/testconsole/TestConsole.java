@@ -1,5 +1,6 @@
 package com.adingrt.vacuumworld.testconsole;
 
+import com.adingrt.vacuumworld.logic.Coordinates;
 import com.adingrt.vacuumworld.logic.VacuumCleaner;
 import com.adingrt.vacuumworld.logic.VacuumWorld;
 
@@ -22,7 +23,7 @@ public class TestConsole {
         
          
         VacuumWorld mundo = new VacuumWorld();
-        VacuumCleaner aspiradora = new VacuumCleaner("ASPIRADORA 1", 0);
+        VacuumCleaner aspiradora = new VacuumCleaner("ASPIRADORA 1", new Coordinates(0,0));
         
         mundo.getWorld()[0][0] = aspiradora;
         mundo.getWorld()[0][1] = "vacio";
