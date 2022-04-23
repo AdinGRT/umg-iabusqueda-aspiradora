@@ -4,22 +4,30 @@ package com.adingrt.vacuumworld.logic;
  *
  * @author Adin Rubio
  */
-public class VacuumWorld<E> {
-    private E[][] world;
+public class VacuumWorld {
+    private Boolean[][] world;
 
     public VacuumWorld() {
     }
 
-    public VacuumWorld(E[][] world) {
+    public VacuumWorld(Boolean[][] world) {
         this.world = world;
     }
-
-    public E[][] getWorld() {
+    
+    public Boolean[][] getWorld() {
         return world;
     }
 
-    public void setWorld(E[][] world) {
+    public void setWorld(Boolean[][] world) {
         this.world = world;
+    }
+
+    public boolean isDirty(Coordinates coord) {
+        return this.world[coord.getX()][coord.getY()];
+    }
+
+    public void setDirty(Coordinates coord, boolean isDirty) {
+        this.world[coord.getX()][coord.getY()] = isDirty;
     }
     
 }
