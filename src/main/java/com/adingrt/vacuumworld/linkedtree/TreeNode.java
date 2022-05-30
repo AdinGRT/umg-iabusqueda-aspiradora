@@ -8,17 +8,15 @@ import java.util.List;
  */
 public class TreeNode<E> implements IPosition<E>{
 
-    private TreeNode<E> parent;
-    private E element;
-    private List<TreeNode<E>> childrens;
-
+    private TreeNode<E> parent; //Nodo padre
+    private E element; //Estados
+    private List<TreeNode<E>> childrens; //Nodos
+    
     public TreeNode(TreeNode<E> parent, E element, List<TreeNode<E>> childrens) {
         this.parent = parent;
         this.element = element;
         this.childrens = childrens;
     }
-    
-    
     
     @Override
     public E getElement() {
@@ -44,5 +42,4 @@ public class TreeNode<E> implements IPosition<E>{
     public void setChildrens(List<TreeNode<E>> childrens) {
         this.childrens = childrens;
     }
-
 }

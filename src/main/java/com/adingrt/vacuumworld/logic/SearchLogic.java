@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Adin Rubio
  */
-public class SearchLogic<E> implements ISearchLogic {
+public class SearchLogic<E> {
 
     private static final char SUCKDIRT = 's';
     private static final char MOVELEFT = 'l';
@@ -22,96 +22,89 @@ public class SearchLogic<E> implements ISearchLogic {
     private VacuumWorldState initialState;
     private VacuumWorldState[] finalStates;
 
-    private LinkedTree tree;
+    private boolean[][] room;
+    
+    private LinkedTree treeVacuumWorldStates;
 
-    public SearchLogic() {
-        this.world = new VacuumWorld(true);
+    public SearchLogic(int dimRoomRow, int dimRoomColumn) {
+        this.world = new VacuumWorld(new boolean[dimRoomRow][dimRoomColumn], true);
         this.vacuum = new VacuumCleaner(new Coordinates(0, 0));
-        this.vacuum.assignWorld(this.world);
-        this.initialState = new VacuumWorldState(this.vacuum, this.vacuum.getWorld());
-        this.finalStates[0] = new VacuumWorldState(new VacuumCleaner(new Coordinates(0, 0)), new VacuumWorld(false));
-        this.finalStates[1] = new VacuumWorldState(new VacuumCleaner(new Coordinates(0, 1)), new VacuumWorld(false));
+        this.initialState = new VacuumWorldState(this.vacuum, this.world);
+        this.finalStates = new VacuumWorldState[2];
+        this.finalStates[0] = new VacuumWorldState(new VacuumCleaner(new Coordinates(0, 0)), new VacuumWorld(new boolean[dimRoomRow][dimRoomColumn], false));
+        this.finalStates[1] = new VacuumWorldState(new VacuumCleaner(new Coordinates(0, 1)), new VacuumWorld(new boolean[dimRoomRow][dimRoomColumn], false));
     }
 
-    public void fillTree(VacuumWorldState stateElementParent, TreeNode<E> parentNode, char operador) {
-        VacuumWorldState stateElementChild;
+    //AGREGA NODOS AL ARBOL SEGUN ESTADO GENERADO
+    private void addStatesToTree(LinkedTree treeVacuumWorldStates, VacuumWorldState stateElementParent, TreeNode<E> parentNode, char operador) {
         //GENERAR NUEVO ESTADO CON OPERADOR DADO
-        stateElementChild = stateElementParent.copyState(); //COPIAR ESTADO DEL QUE VIENE
-        stateElementChild.getVacuum().action(operador); //ESTADO NUEVO GENERADO
+        System.out.println("Estado Actual: " + stateElementParent.toString());
+        VacuumWorldState stateElementChild = new VacuumWorldState();
+        stateElementChild.copyState(stateElementParent); //COPIAR ESTADO DEL QUE VIENE
+        stateElementChild.changeState(operador);//ESTADO NUEVO GENERADO
+        System.out.println("Estado Generado: " + stateElementChild.toString() + "\n\n");
         //COMPARAR ESTADOS PARA AGREGAR NODO A ARBOL O NO
-        if (parentNode.getChildrens() != null || !parentNode.getChildrens().isEmpty()) {
+        if (!treeVacuumWorldStates.isLeaf(parentNode)) {
+            System.out.println("TEST SI NO ES HOJA: \n");
             for (TreeNode<E> cN : parentNode.getChildrens()) {
-                this.fillTree(stateElementChild, cN, operador);
+                
+                this.addStatesToTree(treeVacuumWorldStates, stateElementChild, cN, operador);
             }
-        } else if (!stateElementChild.isTheSameState(stateElementParent)) {
-            TreeNode<E> childNode = (TreeNode<E>) this.tree.add(parentNode, stateElementChild);
-            this.fillTree(stateElementChild, childNode, operador);
+        } else if (!stateElementChild.isTheSameGeneratedState(stateElementParent)) {
+            System.out.println("TEST SI ES HOJA: \n");
+            TreeNode<E> childNode = (TreeNode<E>) treeVacuumWorldStates.add(parentNode, stateElementChild);
+            this.addStatesToTree(treeVacuumWorldStates, stateElementChild, childNode, operador);
         }
     }
 
-    @Override
-    public ITree statesTree() {
-        VacuumWorldState currState = initialState.copyState();
-        this.tree = new LinkedTree<>();
-        TreeNode<E> currNode = (TreeNode<E>) this.tree.addRoot(currState);
-
-        VacuumWorldState auxState;
-
-        //LIMPIAR
-        auxState = currState.copyState();
-        auxState.getVacuum().action(SUCKDIRT);
-        if (!auxState.isTheSameState(currState)) {
-            this.tree.add(currNode, auxState);
-            if (this.isGoal(auxState)) {
-                return this.tree;
+    
+    public void generateTree(int level, List<Character> operators) {
+        
+        VacuumWorldState currState = new VacuumWorldState();
+        currState.copyState(this.initialState);
+               
+        this.treeVacuumWorldStates = new LinkedTree<>();
+        
+        TreeNode<E> currNode = (TreeNode<E>) this.treeVacuumWorldStates.addRoot(currState);
+        System.out.println("TEST NODO: " + currNode.getElement());
+        
+        for (int i = 0; i < level; i++) {
+            System.out.println("FOR i: " + i);
+            for (Character op : operators) {
+                System.out.println("op = " + op);
+                this.addStatesToTree(this.treeVacuumWorldStates, currState, currNode, op);
             }
         }
-        //IZQUIERDA
-        auxState = currState.copyState();
-        auxState.getVacuum().action(MOVELEFT);
-        if (!auxState.isTheSameState(currState)) {
-            this.tree.add(currNode, auxState);
-            if (this.isGoal(auxState)) {
-                return this.tree;
-            }
-        }
-        //DERECHA
-        auxState = currState.copyState();
-        auxState.getVacuum().action(MOVERIGHT);
-        if (!auxState.isTheSameState(currState)) {
-            this.tree.add(currNode, auxState);
-            if (this.isGoal(auxState)) {
-                return this.tree;
-            }
-        }
-        return this.tree;
+        
+        System.out.println("\n\n\nRECORRIDO: \n\n");
+        this.treeVacuumWorldStates.preorden(currNode, new ArrayList());
     }
 
-    @Override
+    
     public Boolean isGoal(VacuumWorldState state) {
-        return state.isTheSameState(this.finalStates[0]) || state.isTheSameState(this.finalStates[1]);
+        return state.isTheSameGeneratedState(this.finalStates[0]) || state.isTheSameGeneratedState(this.finalStates[1]);
     }
 
-    @Override
-    public List<E> getRoute() {
-        List<VacuumWorldState> routes = new ArrayList<>();
-        VacuumWorldState currState = new VacuumWorldState(this.initialState.getVacuum(), this.initialState.getWorld());
-        VacuumWorldState auxState;
-        while (!this.isGoal(currState)) {
-            //MOVER IZQUIERDA
-            auxState = new VacuumWorldState(currState.getVacuum(), currState.getWorld());
-            auxState.getVacuum().move('l');
-            routes.add(auxState);
-            //MOVER DERECHA
-            auxState = new VacuumWorldState(currState.getVacuum(), currState.getWorld());
-            auxState.getVacuum().move('d');
-            routes.add(auxState);
-            //LIMPIAR
-            auxState = new VacuumWorldState(currState.getVacuum(), currState.getWorld());
-            auxState.getVacuum().suckdirt();
-            routes.add(auxState);
-        }
-        return (List<E>) routes;
-    }
+    
+//    public List<E> getRoute() {
+//        List<VacuumWorldState> routes = new ArrayList<>();
+//        VacuumWorldState currState = new VacuumWorldState(this.initialState.getVacuum(), this.initialState.getWorld());
+//        VacuumWorldState auxState;
+//        while (!this.isGoal(currState)) {
+//            //MOVER IZQUIERDA
+//            auxState = new VacuumWorldState(currState.getVacuum(), currState.getWorld());
+//            auxState.getVacuum().move('l');
+//            routes.add(auxState);
+//            //MOVER DERECHA
+//            auxState = new VacuumWorldState(currState.getVacuum(), currState.getWorld());
+//            auxState.getVacuum().move('d');
+//            routes.add(auxState);
+//            //LIMPIAR
+//            auxState = new VacuumWorldState(currState.getVacuum(), currState.getWorld());
+//            auxState.getVacuum().suckdirt();
+//            routes.add(auxState);
+//        }
+//        return (List<E>) routes;
+//    }
 
 }

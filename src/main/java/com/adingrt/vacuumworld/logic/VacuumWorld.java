@@ -54,12 +54,30 @@ public class VacuumWorld {
         }
     }
     
-    public void printRoom() {
+    public String printRoom() {
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < this.room.length; ++i) {
             for(int j = 0; j < this.room[i].length; ++j) {
-                System.out.println(this.room[i][j]);
+                if(this.room[i][j]) {
+                    sb.append("Habitacion en: " + i + " " + j + "esta sucia! \n");
+                }
+                else {
+                    sb.append("Habitacion en: " + i + " " + j + "esta limpia! \n");
+                }
             }
         }
+        return sb.toString();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("VacuumWorld{");
+        sb.append(this.printRoom());
+        sb.append('}');
+        return sb.toString();
+    }
+    
+    
     
 }

@@ -133,7 +133,7 @@ public class LinkedTree<E> implements ITree<E> {
 
     // Castea un Position a un TreeNode si es posible
     protected TreeNode<E> checkPosition(IPosition<E> p) {
-        if ((p == null) || (p instanceof TreeNode)) {
+        if ((p == null)) {
             throw new InvalidOperationException("Posicion del Nodo invalida!");
         }
         TreeNode<E> n = (TreeNode<E>) p;
@@ -148,6 +148,7 @@ public class LinkedTree<E> implements ITree<E> {
     public void preorden(IPosition<E> p, List<IPosition<E>> list) {
         list.add(p);
         TreeNode<E> node = checkPosition(p);
+        p.getElement().toString();
         if(!this.isLeaf(p)) {
             for(IPosition<E> h: node.getChildrens()) {
                 preorden(h,list);

@@ -14,15 +14,14 @@ public class TestConsole {
     public static void main(String[] args) {
 
         boolean[][] room = new boolean[1][2];
-
+        
         VacuumWorld world = new VacuumWorld(room, true);
         VacuumCleaner vacuum = new VacuumCleaner(new Coordinates(0, 0));
-        VacuumWorldState state = new VacuumWorldState();
-
-        state.setVacuum(vacuum);
-        state.setWorld(world);
-
-        state.getVacuum().action('d', state.getWorld());
+        VacuumWorldState state = new VacuumWorldState(vacuum, world);
+        
+        state.changeState('d');
+        
+        
 
         System.out.println("Vacuum position = " + vacuum.getCurrentPosition().toString());
         System.out.println("State vacuum position = " + state.getVacuum().getCurrentPosition().toString());

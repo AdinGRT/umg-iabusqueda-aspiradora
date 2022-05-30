@@ -1,7 +1,5 @@
 package com.adingrt.vacuumworld.logic;
 
-import java.util.Objects;
-
 /**
  *
  * @author Adin Rubio
@@ -10,6 +8,7 @@ public class VacuumWorldState {
 
     private VacuumCleaner vacuum;
     private VacuumWorld world;
+    private char operator;
 
     public VacuumWorldState() {
     }
@@ -18,7 +17,7 @@ public class VacuumWorldState {
         this.vacuum = vacuum;
         this.world = world;
     }
-
+    
     public VacuumCleaner getVacuum() {
         return vacuum;
     }
@@ -26,7 +25,27 @@ public class VacuumWorldState {
     public VacuumWorld getWorld() {
         return world;
     }
+    
+    public char getOperator() {
+        return operator;
+    }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("VacuumWorldState{");
+        sb.append("vacuum=").append(vacuum);
+        sb.append(", world=").append(world);
+        sb.append(", operator=").append(operator);
+        sb.append('}');
+        return sb.toString();
+    }
+    
+    public void changeState(char operator) {
+        this.vacuum.action(operator, this.world);
+        this.operator = operator;
+    };
+    
     public void copyState(VacuumWorldState state) {
         int yRoom = state.getWorld().getRoom().length;
         int xRoom = state.getWorld().getRoom()[0].length;
@@ -58,11 +77,12 @@ public class VacuumWorldState {
         return true;
     }
 
-    public void setVacuum(VacuumCleaner vacuum) {
+    private void setVacuum(VacuumCleaner vacuum) {
         this.vacuum = vacuum;
     }
 
-    public void setWorld(VacuumWorld world) {
+    private void setWorld(VacuumWorld world) {
         this.world = world;
     }
+
 }

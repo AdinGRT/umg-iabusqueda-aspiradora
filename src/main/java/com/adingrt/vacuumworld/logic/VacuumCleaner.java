@@ -74,4 +74,14 @@ public class VacuumCleaner {
         return currentPosition;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("VacuumCleaner{");
+        sb.append("id=").append(id);
+        sb.append(", currentPosition=").append(currentPosition);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }
