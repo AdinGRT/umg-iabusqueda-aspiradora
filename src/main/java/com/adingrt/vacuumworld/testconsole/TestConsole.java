@@ -1,8 +1,10 @@
 package com.adingrt.vacuumworld.testconsole;
 
 import com.adingrt.vacuumworld.logic.Coordinates;
+import com.adingrt.vacuumworld.logic.SearchLogic;
 import com.adingrt.vacuumworld.logic.VacuumCleaner;
 import com.adingrt.vacuumworld.logic.VacuumWorld;
+import com.adingrt.vacuumworld.logic.VacuumWorldState;
 
 /**
  *
@@ -10,33 +12,48 @@ import com.adingrt.vacuumworld.logic.VacuumWorld;
  */
 public class TestConsole {
     public static void main(String[] args) {
+
+        boolean[][] room = new boolean[1][2];
         
-        //Aspiradora 0 = izquierda; 1 = derecha
-        //Estado 0 = sucio; 1 = limpio
-        int[] estadoInicial = {0,0,0};
+        VacuumWorld world = new VacuumWorld(room, true);
+        VacuumCleaner vacuum = new VacuumCleaner(new Coordinates(0,0));
+        VacuumWorldState state = new VacuumWorldState();
         
-        int[] estadoFinal1 = {0,1,1};
-        int[] estadoFinal2 = {1,1,1};
+        state.setVacuum(vacuum);
+        state.setWorld(world);
+        world.setRoom(room);
+        vacuum.assignWorld(world);
         
+        vacuum.action('d');
         
+        System.out.println("Vacuum position = " + vacuum.getCurrentPosition().toString());
+        System.out.println("State vacuum position = " + state.getVacuum().getCurrentPosition().toString());
+        System.out.println(vacuum.getWorld().isDirty(vacuum.getCurrentPosition()));
         
-        
-         
-        VacuumWorld mundo = new VacuumWorld();
-        VacuumCleaner aspiradora = new VacuumCleaner("ASPIRADORA 1", new Coordinates(0,0));
-        
-        mundo.getWorld()[0][0] = aspiradora;
-        mundo.getWorld()[0][1] = "vacio";
-        mundo.getWorld()[1][0] = "sucio";
-        mundo.getWorld()[1][1] = "sucio";
-        
-        for (int i = 0; i < mundo.getWorld().length; i++) {
-            for (int j = 0; j < mundo.getWorld().length; j++) {
-                System.out.println(mundo.getWorld()[i][j].toString());
-            }
-        }
+        System.out.println(vacuum.getWorld().getRoom());
+        System.out.println(state.getWorld().getRoom());
         
         
+        VacuumWorldState otherState = new VacuumWorldState();
+        state.copyState(otherState);
+        System.out.println(state);
+        System.out.println(otherState);
+        System.out.println(state.getVacuum());
+        System.out.println(otherState.getVacuum());
+        System.out.println(state.getWorld());
+        System.out.println(otherState.getWorld());
+        System.out.println(state.getWorld().getRoom());
+        System.out.println(otherState.getWorld().getRoom());
+        
+        otherState.getVacuum().action('l');
+        System.out.println("Vacuum position = " + vacuum.getCurrentPosition().toString());
+        System.out.println("State vacuum position = " + state.getVacuum().getCurrentPosition().toString());
+        System.out.println("other State vacuum position = " + otherState.getVacuum().getCurrentPosition().toString());
+        
+        otherState.getVacuum().action('s');
+        
+        state.getWorld().printRoom();
+        otherState.getWorld().printRoom();
         
     }
 }

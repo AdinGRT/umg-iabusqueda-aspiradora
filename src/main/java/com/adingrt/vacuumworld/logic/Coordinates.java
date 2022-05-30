@@ -31,6 +31,16 @@ public class Coordinates {
     public void setY(int y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Coordinates{");
+        sb.append("x=").append(x);
+        sb.append(", y=").append(y);
+        sb.append('}');
+        return sb.toString();
+    }
     
     
 }

@@ -9,9 +9,9 @@ import java.util.List;
  */
 public interface ISearchLogic<E> {
     //Generar arbol de estados
-    public ITree generateStateSpace();
+    public ITree statesTree();
     //Comparacion de estados para saber si es final
-    public Boolean isGoal();
+    public Boolean isGoal(VacuumWorldState state);
     //Obtener una lista de estados con rutas
     public List<E> getRoute();
 }
