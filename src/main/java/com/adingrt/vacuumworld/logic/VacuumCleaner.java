@@ -9,7 +9,6 @@ public class VacuumCleaner {
 
     private String id;
     private Coordinates currentPosition;
-    private VacuumWorld world;
 
     public VacuumCleaner(Coordinates currentPosition) {
         this.currentPosition = currentPosition;
@@ -20,62 +19,54 @@ public class VacuumCleaner {
         this.currentPosition = currentPosition;
     }
 
-    public void assignWorld(VacuumWorld world) {
-        this.world = world;
-    }
-
-    public VacuumWorld getWorld() {
-        return world;
-    }
-
-    public void action(char action) {
+    public void action(char action, VacuumWorld world) {
         if (action == 's') {
-            this.suckdirt();
-        } else if (action == 'u' || action == 'd' || action == 'l' || action == 'd') {
-            this.move(action);
+            this.suckdirt(world);
+        } else if (action == 'u' || action == 'd' || action == 'l' || action == 'r') {
+            this.move(action, world);
         } else {
             throw new InvalidOperationException("Operador no valido!");
         }
     }
 
-    public void suckdirt() {
-        this.world.dirty(this.currentPosition, false);
+    public void suckdirt(VacuumWorld world) {
+        world.dirty(this.currentPosition, false);
     }
 
-    private void move(char direction) {
+    private void move(char direction, VacuumWorld world) {
         int x = this.currentPosition.getX();
         int y = this.currentPosition.getY();
         switch (direction) {
-            case 'u':
-                if (x > 0) {
-                    this.currentPosition.setX(x - 1);
+            case 'd':
+                if (y > 0) {
+                    this.currentPosition.setY(y - 1);
                 } else {
-                    throw new InvalidOperationException("Posicion no valida!");
+                    System.out.println("Posicion no valida!");
                 }
                 break;
-            case 'd':
-                if (x < this.world.getRoom().length) {
-                    this.currentPosition.setX(x + 1);
+            case 'u':
+                if (y < world.getRoom().length - 1) {
+                    this.currentPosition.setY(y + 1);
                 } else {
-                    throw new InvalidOperationException("Posicion no valida!");
+                    System.out.println("Posicion no valida!");
                 }
                 break;
             case 'l':
                 if (x > 0) {
                     this.currentPosition.setX(x - 1);
                 } else {
-                    throw new InvalidOperationException("Posicion no valida!");
+                    System.out.println("Posicion no valida!");
                 }
                 break;
             case 'r':
-                if (y < this.world.getRoom()[0].length) {
-                    this.currentPosition.setY(y + 1);
+                if (x < world.getRoom()[0].length - 1) {
+                    this.currentPosition.setX(x + 1);
                 } else {
-                    throw new InvalidOperationException("Posicion no valida!");
+                    System.out.println("Posicion no valida!");
                 }
                 break;
             default:
-                throw new InvalidOperationException("Direccion no valida!");
+                System.out.println("Direccion no valida!");
         }
     }
 

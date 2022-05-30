@@ -27,14 +27,16 @@ public class VacuumWorldState {
         return world;
     }
 
-    public void copyState(VacuumWorldState otherState) {
-        otherState.setVacuum(new VacuumCleaner(new Coordinates(this.vacuum.getCurrentPosition().getX(), this.vacuum.getCurrentPosition().getY())));
-        otherState.setWorld(new VacuumWorld(this.world.getRoom().clone(), true));
-        otherState.getVacuum().assignWorld(otherState.getWorld());
+    public void copyState(VacuumWorldState state) {
+        int yRoom = state.getWorld().getRoom().length;
+        int xRoom = state.getWorld().getRoom()[0].length;
+        this.setVacuum(new VacuumCleaner(new Coordinates(state.getVacuum().getCurrentPosition().getX(), state.getVacuum().getCurrentPosition().getY())));
+        this.setWorld(new VacuumWorld(new boolean[yRoom][xRoom], true));
     }
     
-    public boolean isTheSameState(VacuumWorldState otherState) {
-        if (this.getVacuum().getCurrentPosition() == otherState.getVacuum().getCurrentPosition()) {
+    public boolean isTheSameGeneratedState(VacuumWorldState otherState) {
+        if (this.getVacuum().getCurrentPosition().getX() == otherState.getVacuum().getCurrentPosition().getX()
+                && this.getVacuum().getCurrentPosition().getY() == otherState.getVacuum().getCurrentPosition().getY()){
             if (this.getWorld().getRoom().length == otherState.getWorld().getRoom().length) {
                 for (int i = 0; i < this.getWorld().getRoom().length; ++i) {
                     if (this.getWorld().getRoom()[i].length == otherState.getWorld().getRoom()[i].length) {
